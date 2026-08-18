@@ -9,6 +9,18 @@ import {
 } from "@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 import {IRebaseToken} from "./interfaces/IRebaseToken.sol";
 
+/**
+ * @title RebaseTokenPool
+ * @author daniko
+ * @notice CCIP token pool for the RebaseToken. Extends the standard TokenPool
+ * to preserve each user's personal interest rate when bridging cross-chain.
+ *
+ * On the source chain: burns tokens and encodes the user's interest rate
+ * into the CCIP message as pool data.
+ *
+ * On the destination chain: decodes the interest rate and mints tokens
+ * to the receiver with their original rate restored.
+ */
 contract RebaseTokenPool is TokenPool {
     /**
      * @notice Overrides the TokenPool constructor
